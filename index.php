@@ -45,16 +45,16 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="http://localhost/site/?pg=empresa">EMPRESA</a>
+                        <a href="?pg=empresa">EMPRESA</a>
                     </li>
                     <li>
-                        <a href="http://localhost/site/?pg=produtos">PRODUTOS</a>
+                        <a href="?pg=produtos">PRODUTOS</a>
                     </li>
                     <li>
-                        <a href="http://localhost/site/?pg=servicos">SERVIÇOS</a>
+                        <a href="?pg=servicos">SERVIÇOS</a>
                     </li>
                     <li>
-                        <a href="http://localhost/site/?pg=contato">CONTATO</a>
+                        <a href="?pg=contato">CONTATO</a>
                     </li>
                 </ul>
             </div>
