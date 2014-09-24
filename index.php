@@ -1,5 +1,6 @@
+<?php date_default_timezone_set('America/Sao_Paulo'); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
 
@@ -9,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Half Slider - Start Bootstrap Template</title>
+    <title>AGÊNCIA GULLIVER VIAGENS</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -39,21 +40,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">HOME</a>
+                <a class="navbar-brand" href="http://localhost/site/?pg=home">HOME</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">EMPRESA</a>
+                        <a href="http://localhost/site/?pg=empresa">EMPRESA</a>
                     </li>
                     <li>
-                        <a href="#">PRODUTOS</a>
+                        <a href="http://localhost/site/?pg=produtos">PRODUTOS</a>
                     </li>
                     <li>
-                        <a href="#">SERVIÇOS</a>
+                        <a href="http://localhost/site/?pg=servicos">SERVIÇOS</a>
                     </li>
                     <li>
-                        <a href="#">CONTATO</a>
+                        <a href="http://localhost/site/?pg=contato">CONTATO</a>
                     </li>
                 </ul>
             </div>
@@ -102,21 +103,24 @@
 
     <!-- Page Content -->
     <div class="container">
+        <?php   
+               $arrayPg = array('home', 'empresa', 'produtos', 'servicos', 'contato');
+               if (isset($_GET["pg"]) && in_array($_GET["pg"], $arrayPg)) {
+                    require_once($_GET["pg"].'.php'); 
+               } else {
+                    require_once("home.php"); 
+               }
 
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>Projeto Trilha PHP</h1>
-                <p>Projeto de um site simples para fins de estudo usando Twitter Bootstrap.
-            </div>
-        </div>
-
+               if (isset($_POST["contato"])) {
+                    require_once("form.php"); 
+               }
+        ?>
         <hr>
-
         <!-- Footer -->
         <footer>
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Todos os Direitos Reservados &copy; 2014</p>
+                    <p>Todos os Direitos Reservados &copy; <?php $d = new DateTime(); echo $d->format('Y'); ?></p>
                 </div>
             </div>
             <!-- /.row -->
