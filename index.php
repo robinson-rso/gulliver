@@ -1,4 +1,6 @@
-<?php date_default_timezone_set('America/Sao_Paulo'); ?>
+<?php date_default_timezone_set('America/Sao_Paulo'); 
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -40,21 +42,21 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="http://localhost/site/?pg=home">HOME</a>
+                <a class="navbar-brand" href="home">HOME</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="?pg=empresa">EMPRESA</a>
+                        <a href="empresa">EMPRESA</a>
                     </li>
                     <li>
-                        <a href="?pg=produtos">PRODUTOS</a>
+                        <a href="produtos">PRODUTOS</a>
                     </li>
                     <li>
-                        <a href="?pg=servicos">SERVIÇOS</a>
+                        <a href="servicos">SERVIÇOS</a>
                     </li>
                     <li>
-                        <a href="?pg=contato">CONTATO</a>
+                        <a href="contato">CONTATO</a>
                     </li>
                 </ul>
             </div>
@@ -103,18 +105,90 @@
 
     <!-- Page Content -->
     <div class="container">
-        <?php   
-               $arrayPg = array('home', 'empresa', 'produtos', 'servicos', 'contato');
-               if (isset($_GET["pg"]) && in_array($_GET["pg"], $arrayPg)) {
-                    require_once($_GET["pg"].'.php'); 
-               } else {
-                    require_once("home.php"); 
-               }
 
-               if (isset($_POST["contato"])) {
-                    require_once("form.php"); 
-               }
-        ?>
+<?php   
+$rotas = array(
+    'index' => array( 
+        '',
+        function() {
+            echo '<h1>Projeto Fase 2</h1>';
+        }
+    ),
+    'home' => array( 
+        '/home',
+        function() {
+            echo '<h1>Projeto Fase 2</h1>';
+        }
+    ),
+    'empresa' => array( 
+        '/empresa',
+        function() {
+            if (file_exists('empresa.php')) {
+                require_once('empresa.php');
+            } 
+            else {
+                echo '<h3>Arquivo não encontrado</h3>';
+            } 
+        }
+    ),
+    'produtos' => array( 
+        '/produtos',
+        function() {
+            if (file_exists('produtos.php')) {
+                require_once('produtos.php');
+            } 
+            else {
+                echo '<h3>Arquivo não encontrado</h3>';
+            } 
+        }
+    ),
+    'servicos' => array( 
+        '/servicos',
+        function() {
+            if (file_exists('servicos.php')) {
+                require_once('servicos.php');
+            } 
+            else {
+                echo '<h3>Arquivo não encontrado</h3>';
+            } 
+        }
+    ),
+    'contato' => array( 
+        '/contato',
+        function() {
+            if (file_exists('contato.php')) {
+                require_once('contato.php');
+            } 
+            else {
+                echo '<h3>Arquivo não encontrado</h3>';
+            } 
+        }
+    )
+);
+
+$baseUrl = '/site';
+$url = rtrim(parse_url(str_replace($baseUrl, '', $_SERVER['REQUEST_URI']), PHP_URL_PATH) , '/');
+
+if (!verificarRotaExiste($rotas, $url)) {
+    header("HTTP/1.0 404 Not Found");
+    echo '<h3>Erro 404 - URI não encontrada</h3>';
+    die();
+}
+
+array_walk($rotas, function ($rota) use($url) {
+        if ($rota[0] == $url && is_callable($rota[1])) {
+            $action = $rota[1];
+            $action();
+        }
+});
+
+function verificarRotaExiste($arrayRotas, $url) {
+    foreach ($arrayRotas as $rota)
+        if (isset($rota[0]) && $rota[0] == $url)
+            return true;
+    return false;
+}
+?>
         <hr>
         <!-- Footer -->
         <footer>
